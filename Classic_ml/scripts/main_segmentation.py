@@ -9,15 +9,24 @@ from src.data.classifier_legal_phrases_regex import classifier_legal_sections_re
 def segment_documents(args: dict):
     df = load_df(args["path_file"], args["type_file"])
     new_rows = []
-    for row in df.to_dict("records"):
+    counter = 1
+    for index, row in enumerate(df.to_dict("records")):
         dic_data_text = classifier_legal_sections_regex(row["text"])
         for k, v in dic_data_text.items():
             new_rows.append({
+                "id_text":index,
                 "type_section":k,
                 "text_section":v,
+                "class":row["class"],
             })
-    new_df = pd.DataFrame(new_rows)
-    new_df.to_csv(Path().absolute().parent / "data/experiment_data_segmented.csv")
+            if len(new_rows) > 50000:
+                new_df = pd.DataFrame(new_rows)
+                new_df.to_csv(Path().absolute().parent / f"data/experiment_data_segmented_{counter}.csv")            
+                new_rows = []
+                counter += 1
+    if len(new_rows):
+        new_df = pd.DataFrame(new_rows)
+        new_df.to_csv(Path().absolute().parent / f"data/experiment_data_segmented_{counter}.csv")
 
 if __name__ == "__main__":
     import pandas as pd
