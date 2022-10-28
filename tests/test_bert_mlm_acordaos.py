@@ -2,21 +2,29 @@ import torch
 from transformers import BertTokenizer, BertForMaskedLM, pipeline
 from torchtext.datasets import AG_NEWS
 
+torch.hub.set_dir("/home/padilha/DATA2/pytorch/hub/")
+print(torch.hub.get_dir())
+
 #unmasker = pipeline('fill-mask', model='bert-base-uncased')
 #unmasker(input_text)
 
-input_text = ("After Abraham Lincoln won the November 1860 presidential "
-        "election on an anti-slavery platform, an initial seven "
-        "slave states declared their secession from the country "
-        "to form the Confederacy. War broke out in April 1861 "
-        "when secessionist forces attacked Fort Sumter in South "
-        "Carolina, just over a month after Lincoln's "
-        "inauguration.")       
+input_text = (" Trata-se de recurso de apelação interposto " 
+              "contra a r. decisão de fls  60/62, cujo relatório "
+              "se adota, que julgou IMPROCEDENTE o pedido inicial, "
+              "condenando o autor ao pagamento das custas, despesas "
+              "processuais e honorários advocatícios, arbitrados em R$ 200,00. "
+              "Aduziu, em suma, que se viu obrigado a pagar tarifas abusivas "
+              "e indevidas, que resultaram na cobrança a maior de mais de "
+              "R$ 2.000,00, quantia que deve ser restituída, acolhendo-se o "
+              "pedido inicial. Sustentou que a cobrança indevida foi "
+              "realizada de má-fé, devendo haver a devolução em dobro "
+              "argumentando, no mais, pela reforma da r. decisão, dando-se "
+              "provimento ao recurso interposto.")       
 
 class BERT_MLM_eval:
     
-    tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
-    model = BertForMaskedLM.from_pretrained('bert-base-uncased')
+    tokenizer = BertTokenizer.from_pretrained('bert-base-multilingual-cased')
+    model = BertForMaskedLM.from_pretrained('bert-base-multilingual-cased')
     
     def __init__(self):
         pass
@@ -48,8 +56,9 @@ class BERT_MLM_eval:
         
 
 e = BERT_MLM_eval()
+e.eval_15(input_text)
 
-for c, t in AG_NEWS(split='test'):
-    e.eval_15(t)
+#for c, t in AG_NEWS(split='test'):
+#    e.eval_15(t)
 
 
