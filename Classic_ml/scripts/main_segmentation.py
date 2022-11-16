@@ -19,19 +19,19 @@ def segment_documents(args: dict):
                 "text_section":v,
                 "class":row["class"],
             })
-            if len(new_rows) > 50000:
+            if len(new_rows) > 250000:
                 new_df = pd.DataFrame(new_rows)
-                new_df.to_csv(Path().absolute().parent / f"data/experiment_data_segmented_{counter}.csv")            
+                new_df.to_csv(f"D:\\TJSP_clustering_data\\experiment_data_segmented_{counter}.csv")            
                 new_rows = []
                 counter += 1
     if len(new_rows):
         new_df = pd.DataFrame(new_rows)
-        new_df.to_csv(Path().absolute().parent / f"data/experiment_data_segmented_{counter}.csv")
+        new_df.to_csv(f"D:\\TJSP_clustering_data\\experiment_data_segmented_{counter}.csv")
 
 if __name__ == "__main__":
     import pandas as pd
 
-    PATH_FILE = str(Path().absolute().parent / "data/experiment_data.csv")
+    PATH_FILE = "D:\\TJSP_clustering_data\\experiment_data.csv"
     TYPE_FILE = "csv"
     JUST_FINAL_DECISIONS = 0
     OUTPUT_PATH = str(Path().absolute().parent / "reports/")
