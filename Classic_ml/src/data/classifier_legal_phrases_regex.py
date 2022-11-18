@@ -41,10 +41,11 @@ def classifier_legal_sections_regex(text):
     dic_tipos_frases = dictionary_phrases_classes()
     secoes = {}
     for tipo, conj_exp in dic_tipos_frases.items():
-        secoes[tipo] = ""
         for frase in break_sentences(text, nlp):
             for exp in conj_exp:
                 if re.search(exp, frase, flags=re.I | re.S):
+                    if tipo not in secoes:
+                        secoes[tipo] = ""
                     secoes[tipo] += " " + frase
                     break
     return secoes

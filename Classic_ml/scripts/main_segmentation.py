@@ -8,30 +8,31 @@ from src.data.classifier_legal_phrases_regex import classifier_legal_sections_re
 
 def segment_documents(args: dict):
     df = load_df(args["path_file"], args["type_file"])
+    df = df.sample(n=5000)
     new_rows = []
     counter = 1
     for index, row in enumerate(df.to_dict("records")):
-        dic_data_text = classifier_legal_sections_regex(row["text"])
+        dic_data_text = classifier_legal_sections_regex(row["conteudo"])
         for k, v in dic_data_text.items():
             new_rows.append({
                 "id_text":index,
                 "type_section":k,
                 "text_section":v,
-                "class":row["class"],
+                # "class":row["class"],
             })
             if len(new_rows) > 250000:
                 new_df = pd.DataFrame(new_rows)
-                new_df.to_csv(f"D:\\TJSP_clustering_data\\experiment_data_segmented_{counter}.csv")            
+                new_df.to_csv(f"D:\\TJSP_clustering_data\\no_classes_experiment_data_segmented_{counter}.csv")            
                 new_rows = []
                 counter += 1
     if len(new_rows):
         new_df = pd.DataFrame(new_rows)
-        new_df.to_csv(f"D:\\TJSP_clustering_data\\experiment_data_segmented_{counter}.csv")
+        new_df.to_csv(f"D:\\TJSP_clustering_data\\no_classes_experiment_data_segmented_{counter}.csv")
 
 if __name__ == "__main__":
     import pandas as pd
 
-    PATH_FILE = "D:\\TJSP_clustering_data\\experiment_data.csv"
+    PATH_FILE = "D:\\TJSP_clustering_data\\acordaos_sem_tema.csv"
     TYPE_FILE = "csv"
     JUST_FINAL_DECISIONS = 0
     OUTPUT_PATH = str(Path().absolute().parent / "reports/")
