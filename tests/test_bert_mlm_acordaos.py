@@ -1,16 +1,19 @@
+import os
 import torch
 from transformers import BertTokenizer, BertForMaskedLM, pipeline
 from torchtext.datasets import AG_NEWS
 
 torch.hub.set_dir("/home/padilha/DATA2/pytorch/hub/")
 print(torch.hub.get_dir())
+os.environ['TRANSFORMERS_CACHE'] = '/home/padilha/DATA2/pytorch/hub/'
+os.environ['HF_HOME'] = '/home/padilha/DATA2/pytorch/hub/'
 
 #unmasker = pipeline('fill-mask', model='bert-base-uncased')
 #unmasker(input_text)
 
 input_text = (" Trata-se de recurso de apelação interposto " 
               "contra a r. decisão de fls  60/62, cujo relatório "
-              "se adota, que julgou IMPROCEDENTE o pedido inicial, "
+              "se adota, que julgou improcedente o pedido inicial, "
               "condenando o autor ao pagamento das custas, despesas "
               "processuais e honorários advocatícios, arbitrados em R$ 200,00. "
               "Aduziu, em suma, que se viu obrigado a pagar tarifas abusivas "
@@ -23,8 +26,8 @@ input_text = (" Trata-se de recurso de apelação interposto "
 
 class BERT_MLM_eval:
     
-    tokenizer = BertTokenizer.from_pretrained('bert-base-multilingual-cased')
-    model = BertForMaskedLM.from_pretrained('bert-base-multilingual-cased')
+    tokenizer = BertTokenizer.from_pretrained('neuralmind/bert-base-portuguese-cased', cache_dir='/home/padilha/DATA2/pytorch/hub/')
+    model = BertForMaskedLM.from_pretrained('neuralmind/bert-base-portuguese-cased', cache_dir='/home/padilha/DATA2/pytorch/hub/')
     
     def __init__(self):
         pass
