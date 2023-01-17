@@ -11,7 +11,8 @@ class DataLoader:
         self.theme_id = self._is_valid_theme(theme_id)
         
         df = pd.read_parquet(file_path)
-        #print(list(df.columns))
+        print(list(df.columns))
+        print(df.shape)
         df.loc[:, 'number_of_themes'] = df[['S0929', 'S1015', 'S1033', 'S1039', 'S1046', 'S1101']].sum(axis='columns', numeric_only=True)
         
         #filter out documents with more than one theme
@@ -41,7 +42,7 @@ class DataLoader:
     def __next__(self):
         _, df_row = next(self.df_iter)
         
-        return (df_row['processo_id'], df_row['theme'], df_row['texto'])             
+        return (df_row['id'], df_row['processo_id'], df_row['theme'], df_row['texto'])             
         
 
 if __name__ == "__main__":

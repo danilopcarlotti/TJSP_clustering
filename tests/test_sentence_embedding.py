@@ -11,9 +11,12 @@ from src.data.classifier_legal_phrases_regex import classifier_legal_sections_re
 class SentenceEmbedder:
     
     #https://huggingface.co/rufimelo/Legal-BERTimbau-sts-base-ma-v2
+    #tokenizer = AutoTokenizer.from_pretrained('rufimelo/Legal-BERTimbau-sts-base-ma-v2', model_max_length=512)
+    #model = AutoModel.from_pretrained('rufimelo/Legal-BERTimbau-sts-base-ma-v2')
+    
     tokenizer = AutoTokenizer.from_pretrained('rufimelo/Legal-BERTimbau-sts-base-ma-v2', model_max_length=512)
-    model = AutoModel.from_pretrained('rufimelo/Legal-BERTimbau-sts-base-ma-v2')
-
+    model = AutoModel.from_pretrained('ulysses-camara/legal-bert-pt-br/O_Transformer')
+    
     def __init__(self):
         print(self.model.config)
         
