@@ -48,8 +48,8 @@ class BERT_MLM_eval:
         
 
 e = BERT_MLM_eval()
-
-for c, t in AG_NEWS(split='test'):
-    e.eval_15(t)
+e.eval_15(input_text)
+#for c, t in AG_NEWS(split='test'):
+#    e.eval_15(t)
 
 

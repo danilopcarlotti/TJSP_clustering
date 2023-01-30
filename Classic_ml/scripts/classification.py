@@ -32,6 +32,8 @@ def main_classification_multiple_texts(texts: list, codigos: list, ids: list):
     ids_ = []
     for index, text in enumerate(texts):
         secoes = classifier_legal_sections_regex(text)
+    for numero_processo, id_documento, conteudo in texts:
+        secoes = classifier_legal_sections_regex(conteudo)
         if "fato" in secoes:
             results_dic = {k: 0 for k in dic_models.keys()}
             X = hashing_texts([secoes["fato"]], n_features=12000)
@@ -60,6 +62,13 @@ def main_classification_multiple_texts(texts: list, codigos: list, ids: list):
     df = pd.DataFrame(new_rows)
     df.to_csv(f"D:\\TJSP_clustering_data\\acordaos_principais_3k_classes_results.csv")
 
+    meta_dic = {"numero_processo": numero_processo, "id_documento": id_documento}
+    meta_dic.update(results_dic)
+    results.append(meta_dic)
+    df = pd.DataFrame(results)
+    #df.to_csv(f"D:\\TJSP_clustering_data\\no_classes_results.csv")
+    df.to_csv(f"no_classes_results.csv")
+    print(df.describe())
 
 if __name__ == "__main__":
     # dic_models = load_models()
@@ -76,3 +85,8 @@ if __name__ == "__main__":
         df["codigos_movimentos_temas"].tolist(),
         df["id_documento"].tolist(),
     )
+    #df = pd.read_csv("D:\\TJSP_clustering_data\\acordaos_sem_tema.csv")
+    #main_classification_multiple_texts(df["conteudo"].tolist())
+    df = pd.read_csv(sys.argv[1])
+    main_classification_multiple_texts(list(df.itertuples(index=False, name=None)))
+    
