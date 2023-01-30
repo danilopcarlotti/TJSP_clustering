@@ -9,10 +9,10 @@ import numpy as np
 
 
 def cluster_items(
-    X: np.array, items: list, y: list = [], n_clusters: int = 10, to_scale: bool = True
+    X: np.array, items: list, y: list = [], n_clusters: int = 20, to_scale: bool = True
 ):
     """
-    Returns a list of tuples (item, number of similar items)
+    Returns a list of tuples (item, percentage of similar items)
     from a X matrix and a list of items
     """
     if to_scale:
@@ -24,7 +24,30 @@ def cluster_items(
         hom_score = homogeneity_score(y, kmeans_model.labels_)
     else:
         hom_score = -1
-    closest, _ = pairwise_distances_argmin_min(kmeans_model.cluster_centers_, X)
+    total = len(X)
+    m_clusters = kmeans_model.labels_.tolist()
+    closest_data = []
+    for i in range(n_clusters):
+        center_vec = kmeans_model.cluster_centers_[i]
+        data_idx_within_i_cluster = [
+            idx for idx, clu_num in enumerate(m_clusters) if clu_num == i
+        ]
+        one_cluster_tf_matrix = np.zeros(
+            (len(data_idx_within_i_cluster), kmeans_model.cluster_centers_.shape[1])
+        )
+        for row_num, data_idx in enumerate(data_idx_within_i_cluster):
+            one_cluster_tf_matrix[row_num] = X[data_idx]
+        closest, _ = pairwise_distances_argmin_min([center_vec], one_cluster_tf_matrix)
+        closest_idx_in_one_cluster_tf_matrix = closest[0]
+        closest_data_row_num = data_idx_within_i_cluster[
+            closest_idx_in_one_cluster_tf_matrix
+        ]
+        closest_data.append(closest_data_row_num)
+    closest_data = list(set(closest_data))
     return [
-        (items[i], labels_dict[kmeans_model.labels_[i]]) for i in set(closest)
+        (
+            items[i],
+            "{:.2f}%".format(100 * (labels_dict[kmeans_model.labels_[i]] / total)),
+        )
+        for i in set(closest_data)
     ], hom_score

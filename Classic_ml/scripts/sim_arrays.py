@@ -2,7 +2,6 @@ from pathlib import Path
 from scipy.spatial.distance import cosine as f_dist
 
 import numpy as np
-import pandas as pd
 import sys
 
 sys.path.append(str(Path().absolute().parent))
