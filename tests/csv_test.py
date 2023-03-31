@@ -9,6 +9,5 @@ with open(f"{sys.argv[1]}", "r") as fato:
     for row in reader:
         print(row[0])
         l.append(row[0])
-    
+
     print(len(l))
-        
