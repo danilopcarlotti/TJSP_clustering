@@ -66,7 +66,7 @@ def cluster_documents(args: dict, n_clusters: int = 15):
                 indexes_centroids[0][0]
             ]
             report["estatísticas_textos_{}".format(kmeans_label)] = "{:.2f}%".format(
-                100*(count_label / len(df.index))
+                100 * (count_label / len(df.index))
             )
 
     if len(y):
@@ -75,10 +75,10 @@ def cluster_documents(args: dict, n_clusters: int = 15):
         hom_score = -1
     counter_y = dict(Counter(y))
     report["classes"] = counter_y.keys()
-    for k,v in counter_y.items():
+    for k, v in counter_y.items():
         report["number_texts_class_{}".format(k)] = "{:.2f}%".format(
-                100*(v / len(df.index))
-            )
+            100 * (v / len(df.index))
+        )
     report["homogeneity_score"] = hom_score
     return report
 
@@ -87,13 +87,16 @@ def save_report_docx(
     report: dict, output_path: str = "", name_report: str = "relatório"
 ):
     text_file = open(output_path + "/{}.txt".format(name_report), "w", encoding="utf-8")
-    text_file.write("Número total de textos analisados: {}\n\n".format(
+    text_file.write(
+        "Número total de textos analisados: {}\n\n".format(
             report["Número total de textos analisados"]
         )
     )
     for c in report["classes"]:
         text_file.write(
-            "Percentual de textos da classe {} : {}\n".format(c, report["number_texts_class_{}".format(c)])
+            "Percentual de textos da classe {} : {}\n".format(
+                c, report["number_texts_class_{}".format(c)]
+            )
         )
     text_file.write(
         "\n\nScore de homogeneidade: {}\n\n".format(report["homogeneity_score"])
@@ -103,12 +106,14 @@ def save_report_docx(
             "\n\nTexto representativo da classe {} que representa {} dos textos:\n {}\n\n".format(
                 str(k),
                 str(report["estatísticas_textos_{}".format(k)]),
-                re.sub(r"\s+", " ", str(report["Texto representativo da classe {}".format(k)])),
+                re.sub(
+                    r"\s+",
+                    " ",
+                    str(report["Texto representativo da classe {}".format(k)]),
+                ),
             )
         )
-        text_file.write(
-            80 * "*"
-        )
+        text_file.write(80 * "*")
         text_file.write("\n\n")
     text_file.close()
     # doc = Document()

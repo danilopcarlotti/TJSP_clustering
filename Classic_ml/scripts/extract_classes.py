@@ -16,15 +16,15 @@ def extract_documents(args: dict):
             continue
         new_rows.append(
             {
-                "text":row["conteudo"],
+                "text": row["conteudo"],
                 "class": row["codigos_movimentos_temas"],
             }
         )
     df_new = pd.DataFrame(new_rows)
     df_new.to_csv(f"D:\\TJSP_clustering_data\\experiment_data_one_class.csv")
 
+
 if __name__ == "__main__":
-    
 
     PATH_FILE = "D:\\TJSP_clustering_data\\acordaos_principais_14k.csv"
     TYPE_FILE = "csv"
