@@ -1,8 +1,7 @@
-==========================================
-Title:  Classificação de textos jurídicos com segmentação semântica
-Author: Danilo Panzeri Carlotti
-Date:   06 de Junho de 2023
-==========================================
+### Title:  Classificação de textos jurídicos com segmentação semântica
+### Author: Danilo Panzeri Carlotti
+### Date:   06 de Junho de 2023
+
 
 # INSTRUÇÕES DO PACOTE DE CLASSIFICAÇÃO COM SEGMENTAÇÃO SEMÂNTICA
 
