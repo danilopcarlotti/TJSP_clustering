@@ -1,9 +1,0 @@
-torch
-importlib-metadata
-transformers
-tqdm 
-boto3 
-requests 
-regex 
-sentencepiece 
-sacremoses
